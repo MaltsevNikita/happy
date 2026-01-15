@@ -165,10 +165,11 @@ const QuizComponent = () => {
 
   // Получаем список викторин при загрузке компонента
   useEffect(() => {
-    // Создаем список викторин из доступных файлов
+    // Статический список викторин из папки quizzes
+    // Next.js не позволяет использовать require.context, поэтому мы явно указываем доступные викторины
     const quizzes = [];
-    for (let i = 1; i <= 11; i++) {
-      const numStr = i.toString().padStart(2, '0');
+    for (let i = 1; i <= 177; i++) { // У нас есть викторины от 001 до 177
+      const numStr = i.toString().padStart(3, '0'); // Используем padStart(3, '0') для формата 001, 002 и т.д.
       quizzes.push({
         id: `quiz${numStr}`,
         name: `Викторина ${i}`
@@ -203,7 +204,7 @@ const QuizComponent = () => {
   const loadQuiz = async (quizId) => {
     try {
       // Импортируем нужный файл викторины
-      const quizModule = await import(`../data/${quizId}.json`);
+      const quizModule = await import(`../quizzes/${quizId}.json`);
       setQuizData(quizModule.default);
       setSelectedQuiz(quizId);
       setCurrentQuestionIndex(0);
